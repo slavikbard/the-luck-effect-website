@@ -211,10 +211,21 @@ nav.scrolled {
 ══════════════════════════════════════════ */
 .about {
   padding:120px 5vw;
-  background:linear-gradient(180deg, var(--bg) 0%, var(--bg2) 50%, var(--bg) 100%);
+  position:relative; overflow:hidden;
+}
+.about-bg {
+  position:absolute; inset:0; z-index:0;
+  width:100%; height:100%; object-fit:cover; object-position:center;
+  opacity:.18;
+}
+.about::before {
+  content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 50%, rgba(8,8,20,.78) 0%, transparent 80%),
+    rgba(8,8,15,.72);
 }
 .about-inner {
-  max-width:1100px; margin:0 auto;
+  max-width:1100px; margin:0 auto; position:relative; z-index:2;
   display:grid; grid-template-columns:1fr 1.2fr; gap:80px; align-items:center;
 }
 .about-book-mock {
@@ -317,8 +328,17 @@ nav.scrolled {
 /* ══════════════════════════════════════════
    CHAPTERS
 ══════════════════════════════════════════ */
-.chapters { padding:100px 5vw; background:var(--bg); }
-.chapters-inner { max-width:1100px; margin:0 auto; }
+.chapters { padding:100px 5vw; position:relative; overflow:hidden; }
+.chapters-bg {
+  position:absolute; inset:0; z-index:0;
+  width:100%; height:100%; object-fit:cover; object-position:center;
+  opacity:.16;
+}
+.chapters::before {
+  content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:rgba(8,8,15,.78);
+}
+.chapters-inner { max-width:1100px; margin:0 auto; position:relative; z-index:2; }
 .section-head { text-align:center; margin-bottom:64px; }
 .section-head h2 { font-family:var(--display); font-size:clamp(30px,3.5vw,46px); font-weight:400; }
 .parts-grid {
@@ -400,10 +420,21 @@ nav.scrolled {
 ══════════════════════════════════════════ */
 .author {
   padding:120px 5vw;
-  background:linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  position:relative; overflow:hidden;
+}
+.author-bg {
+  position:absolute; inset:0; z-index:0;
+  width:100%; height:100%; object-fit:cover; object-position:center;
+  opacity:.2;
+}
+.author::before {
+  content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 50%, rgba(8,8,20,.7) 0%, transparent 80%),
+    rgba(8,8,15,.74);
 }
 .author-inner {
-  max-width:1100px; margin:0 auto;
+  max-width:1100px; margin:0 auto; position:relative; z-index:2;
   display:grid; grid-template-columns:auto 1fr; gap:72px; align-items:start;
 }
 .author-portrait {
@@ -438,8 +469,17 @@ nav.scrolled {
 /* ══════════════════════════════════════════
    REVIEWS
 ══════════════════════════════════════════ */
-.reviews { padding:100px 5vw; background:var(--bg2); }
-.reviews-inner { max-width:1100px; margin:0 auto; }
+.reviews { padding:100px 5vw; position:relative; overflow:hidden; }
+.reviews-bg {
+  position:absolute; inset:0; z-index:0;
+  width:100%; height:100%; object-fit:cover; object-position:center top;
+  opacity:.2;
+}
+.reviews::before {
+  content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:rgba(8,8,15,.8);
+}
+.reviews-inner { max-width:1100px; margin:0 auto; position:relative; z-index:2; }
 .reviews-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:56px; }
 .review-card {
   background:var(--card); border:1px solid rgba(201,168,76,.1);
@@ -484,16 +524,21 @@ nav.scrolled {
 ══════════════════════════════════════════ */
 .buy {
   padding:120px 5vw;
-  background:var(--bg3);
   text-align:center;
   position:relative; overflow:hidden;
 }
-.buy::before {
-  content:''; position:absolute; inset:0;
-  background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,168,76,.06) 0%, transparent 70%);
-  pointer-events:none;
+.buy-bg {
+  position:absolute; inset:0; z-index:0;
+  width:100%; height:100%; object-fit:cover; object-position:center;
+  opacity:.25;
 }
-.buy-inner { max-width:680px; margin:0 auto; position:relative; }
+.buy::before {
+  content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,168,76,.06) 0%, transparent 70%),
+    rgba(8,8,15,.8);
+}
+.buy-inner { max-width:680px; margin:0 auto; position:relative; z-index:2; }
 .buy h2 {
   font-family:var(--display); font-size:clamp(36px,4.5vw,56px);
   font-weight:400; margin-bottom:20px; color:var(--cream);
@@ -687,6 +732,7 @@ footer {
 
 <!-- ═══════════ ABOUT ═══════════ -->
 <section class="about" id="about">
+  <img class="about-bg" src="AboutBG.jpeg" alt="">
   <div class="about-inner">
     <div class="about-book-mock reveal-l">
       <div class="book-3d">
@@ -755,6 +801,7 @@ footer {
 
 <!-- ═══════════ CHAPTERS ═══════════ -->
 <section class="chapters" id="chapters">
+  <img class="chapters-bg" src="ChaptersBg.jpeg" alt="">
   <div class="chapters-inner">
     <div class="section-head reveal">
       <span class="tag">מבנה הספר</span>
@@ -849,6 +896,7 @@ footer {
 
 <!-- ═══════════ AUTHOR ═══════════ -->
 <section class="author" id="author">
+  <img class="author-bg" src="AuthorBg.jpeg" alt="">
   <div class="author-inner">
     <div class="author-portrait reveal-l"></div>
     <div class="author-text reveal-r">
@@ -880,6 +928,7 @@ footer {
 
 <!-- ═══════════ REVIEWS ═══════════ -->
 <section class="reviews" id="reviews">
+  <img class="reviews-bg" src="ReviewsBg.jpeg" alt="">
   <div class="reviews-inner">
     <div class="section-head reveal">
       <span class="tag">קוראים ראשונים</span>
@@ -940,6 +989,7 @@ footer {
 
 <!-- ═══════════ BUY ═══════════ -->
 <section class="buy" id="buy">
+  <img class="buy-bg" src="BuyBg.jpeg" alt="">
   <div class="buy-inner">
     <span class="tag reveal">רכישה</span>
     <h2 class="reveal">מהדורה דיגיטלית</h2>
