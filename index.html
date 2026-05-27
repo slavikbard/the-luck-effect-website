@@ -279,10 +279,11 @@ nav.scrolled {
   position:relative;
   overflow:hidden;
 }
-.excerpt-video {
+.excerpt-bg {
   position:absolute; inset:0; z-index:0;
   width:100%; height:100%; object-fit:cover;
-  opacity:.22;
+  object-position:center center;
+  opacity:.32;
 }
 .excerpt::before {
   content:''; position:absolute; inset:0; z-index:1;
@@ -724,9 +725,7 @@ footer {
 
 <!-- ═══════════ EXCERPT ═══════════ -->
 <section class="excerpt" id="excerpt">
-  <video class="excerpt-video" autoplay muted loop playsinline>
-    <source src="2section.mp4" type="video/mp4">
-  </video>
+  <img class="excerpt-bg" src="Wide_cinematic_Facebook_cover._A_202605272311.jpeg" alt="">
   <div class="excerpt-inner">
     <span class="tag reveal">פרק ראשון · קטע</span>
     <h2 class="reveal">הלקוחה האחרונה</h2>
