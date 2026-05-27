@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>אפקט המזל — ויאצ'סלב בארד</title>
+<meta name="description" content="רומן מתח ספרותי. ירושלים, לילה גשום, לקוחה אחרונה — ומסע שמגלה שהמקריות לא הייתה מקרית.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;700;900&family=Heebo:wght@300;400;500;600;700&family=Bellefair&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   ROOT & RESET
+══════════════════════════════════════════ */
+:root {
+  --bg:        #08080f;
+  --bg2:       #0e0e1a;
+  --bg3:       #141424;
+  --card:      #1a1a2e;
+  --gold:      #c9a84c;
+  --gold2:     #f0d878;
+  --gold-dim:  #7a6228;
+  --cream:     #e8e4d8;
+  --muted:     #7a7490;
+  --red:       #8a2028;
+  --serif:     'Frank Ruhl Libre', serif;
+  --sans:      'Heebo', sans-serif;
+  --display:   'Bellefair', serif;
+  --ease:      cubic-bezier(.22,.68,0,1.2);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--cream);
+  overflow-x: hidden;
+  direction: rtl;
+}
+img { display:block; max-width:100%; }
+a  { color:inherit; text-decoration:none; }
+button { cursor:pointer; border:none; font-family:var(--sans); }
+
+/* ══════════════════════════════════════════
+   UTILITIES
+══════════════════════════════════════════ */
+.gold { color: var(--gold); }
+.tag  {
+  display:inline-block; font-size:10px; letter-spacing:3px;
+  font-weight:600; text-transform:uppercase; color:var(--gold);
+  border:1px solid var(--gold-dim); padding:4px 14px; border-radius:20px;
+  margin-bottom:20px;
+}
+.divider {
+  width:60px; height:2px;
+  background:linear-gradient(90deg, var(--gold), transparent);
+  margin:24px 0;
+}
+.divider.center { margin:24px auto; background:linear-gradient(90deg, transparent, var(--gold), transparent); width:120px; }
+
+/* REVEAL ANIMATION */
+.reveal { opacity:0; transform:translateY(40px); transition:opacity .8s ease, transform .8s var(--ease); }
+.reveal.in  { opacity:1; transform:translateY(0); }
+.reveal-l   { opacity:0; transform:translateX(-40px); transition:opacity .8s ease, transform .8s var(--ease); }
+.reveal-l.in{ opacity:1; transform:translateX(0); }
+.reveal-r   { opacity:0; transform:translateX(40px); transition:opacity .8s ease, transform .8s var(--ease); }
+.reveal-r.in{ opacity:1; transform:translateX(0); }
+
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 5vw;
+  height:64px;
+  transition:background .4s, backdrop-filter .4s;
+}
+nav.scrolled {
+  background:rgba(8,8,15,.92);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(201,168,76,.15);
+}
+.nav-logo {
+  font-family:var(--display); font-size:20px; color:var(--cream);
+  letter-spacing:.02em;
+}
+.nav-logo span { color:var(--gold); }
+.nav-links { display:flex; gap:32px; align-items:center; }
+.nav-links a {
+  font-size:13px; color:var(--muted); letter-spacing:.04em;
+  transition:color .25s;
+}
+.nav-links a:hover { color:var(--cream); }
+.nav-cta {
+  background:var(--gold); color:#000; font-size:12px;
+  font-weight:700; letter-spacing:.08em; padding:9px 22px;
+  border-radius:4px; transition:background .25s, transform .2s;
+}
+.nav-cta:hover { background:var(--gold2); transform:translateY(-1px); }
+
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+.hero {
+  position:relative; min-height:100vh;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; overflow:hidden;
+  padding:100px 5vw 80px;
+}
+.hero-bg {
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, rgba(30,28,60,.9) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 100% at 50% 100%, rgba(140,100,20,.12) 0%, transparent 60%),
+    linear-gradient(180deg, #06060f 0%, #0c0c1e 40%, #08080f 100%);
+}
+.hero-video {
+  position:absolute; inset:0; z-index:1;
+  width:100%; height:100%; object-fit:cover;
+  opacity:.45;
+}
+.hero-video-overlay {
+  position:absolute; inset:0; z-index:2;
+  background:linear-gradient(180deg,
+    rgba(6,6,15,.55) 0%,
+    rgba(8,8,20,.35) 50%,
+    rgba(6,6,15,.75) 100%);
+}
+/* Rain lines */
+.hero-rain {
+  position:absolute; inset:0; z-index:3; overflow:hidden; pointer-events:none;
+}
+.rain-line {
+  position:absolute; top:-100px; width:1px;
+  background:linear-gradient(180deg, transparent, rgba(201,168,76,.25), transparent);
+  animation:rain linear infinite;
+}
+@keyframes rain {
+  to { transform:translateY(calc(100vh + 200px)); }
+}
+/* Spark */
+.hero-spark {
+  position:absolute; left:50%; top:18%; transform:translateX(-50%);
+  width:1px; height:280px; z-index:4;
+  background:linear-gradient(180deg,
+    transparent 0%, var(--gold) 20%,
+    rgba(240,216,120,.95) 48%,
+    var(--gold) 78%, transparent 100%);
+  box-shadow:0 0 10px var(--gold), 0 0 30px rgba(201,168,76,.5), 0 0 80px rgba(201,168,76,.2);
+  animation:spark-pulse 3s ease-in-out infinite;
+}
+@keyframes spark-pulse {
+  0%,100% { opacity:.7; }
+  50%      { opacity:1; box-shadow:0 0 20px var(--gold), 0 0 60px rgba(201,168,76,.6), 0 0 120px rgba(201,168,76,.3); }
+}
+.hero-content { position:relative; z-index:5; max-width:800px; }
+.hero-label {
+  font-size:11px; letter-spacing:5px; color:var(--gold);
+  text-transform:uppercase; margin-bottom:40px; opacity:.8;
+}
+.hero-title {
+  font-family:var(--display); font-size:clamp(72px,12vw,130px);
+  font-weight:400; line-height:.95; color:var(--cream);
+  margin-bottom:12px;
+  text-shadow:0 2px 40px rgba(201,168,76,.2);
+}
+.hero-title .line2 { color:var(--gold); display:block; }
+.hero-sub {
+  font-family:var(--serif); font-size:clamp(14px,1.8vw,18px);
+  color:rgba(232,228,216,.65); line-height:1.7;
+  max-width:560px; margin:0 auto 50px;
+}
+.hero-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.btn-primary {
+  background:var(--gold); color:#000;
+  font-size:13px; font-weight:700; letter-spacing:.08em;
+  padding:15px 36px; border-radius:4px;
+  transition:background .25s, transform .2s, box-shadow .25s;
+}
+.btn-primary:hover { background:var(--gold2); transform:translateY(-2px); box-shadow:0 8px 30px rgba(201,168,76,.35); }
+.btn-ghost {
+  background:transparent; color:var(--cream);
+  font-size:13px; letter-spacing:.06em;
+  padding:15px 36px; border-radius:4px;
+  border:1px solid rgba(232,228,216,.3);
+  transition:border-color .25s, transform .2s;
+}
+.btn-ghost:hover { border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
+.hero-scroll {
+  position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  font-size:10px; letter-spacing:3px; color:var(--muted);
+  animation:float 2s ease-in-out infinite;
+  z-index:5;
+}
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+.hero-scroll svg { width:18px; height:18px; stroke:var(--gold-dim); }
+.hero-stats {
+  position:relative; z-index:5;
+  display:flex; gap:48px; justify-content:center;
+  margin-top:56px; flex-wrap:wrap;
+}
+.stat-item { text-align:center; }
+.stat-num  { font-family:var(--display); font-size:38px; color:var(--gold); line-height:1; }
+.stat-lbl  { font-size:10px; letter-spacing:3px; color:var(--muted); margin-top:6px; text-transform:uppercase; }
+
+/* ══════════════════════════════════════════
+   ABOUT THE BOOK
+══════════════════════════════════════════ */
+.about {
+  padding:120px 5vw;
+  background:linear-gradient(180deg, var(--bg) 0%, var(--bg2) 50%, var(--bg) 100%);
+}
+.about-inner {
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:1fr 1.2fr; gap:80px; align-items:center;
+}
+.about-book-mock {
+  position:relative; display:flex; justify-content:center;
+}
+.book-3d {
+  width:240px; height:360px;
+  background:linear-gradient(135deg, #1a1a2e 0%, #2d2d50 40%, #1a1a2e 100%);
+  border-radius:4px 10px 10px 4px;
+  box-shadow:
+    -8px 0 0 #0a0a14,
+    -10px 4px 20px rgba(0,0,0,.6),
+    20px 20px 60px rgba(0,0,0,.7),
+    0 0 0 1px rgba(201,168,76,.15);
+  position:relative; overflow:hidden;
+  transition:transform .5s var(--ease), box-shadow .5s;
+  cursor:default;
+}
+.book-3d:hover {
+  transform:rotateY(-12deg) rotateX(3deg) scale(1.04);
+  box-shadow:-12px 0 0 #0a0a14, -16px 8px 40px rgba(0,0,0,.7), 30px 30px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(201,168,76,.25);
+}
+.book-3d::before {
+  content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 30%, rgba(201,168,76,.18) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.04) 0%, transparent 40%);
+}
+.book-cover-content {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; padding:28px 20px;
+}
+.book-cover-tag  { font-size:7px; letter-spacing:3px; color:var(--gold); text-transform:uppercase; margin-bottom:24px; }
+.book-cover-line { width:1px; height:120px; background:linear-gradient(180deg, transparent, var(--gold), transparent); margin-bottom:24px; box-shadow:0 0 8px var(--gold); }
+.book-cover-title { font-family:var(--display); font-size:32px; color:var(--cream); text-align:center; line-height:1.1; }
+.book-cover-author { font-size:8px; letter-spacing:3px; color:var(--muted); margin-top:20px; text-transform:uppercase; }
+
+.about-text {}
+.about-text h2 {
+  font-family:var(--display); font-size:clamp(36px,4vw,52px);
+  font-weight:400; line-height:1.1; margin-bottom:24px;
+  color:var(--cream);
+}
+.about-text p {
+  font-size:15px; line-height:1.9; color:rgba(232,228,216,.75);
+  margin-bottom:16px;
+}
+.about-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:28px; }
+.about-tags span {
+  font-size:11px; padding:5px 14px; border-radius:20px;
+  border:1px solid rgba(201,168,76,.3); color:var(--gold);
+  letter-spacing:.05em;
+}
+
+/* ══════════════════════════════════════════
+   EXCERPT
+══════════════════════════════════════════ */
+.excerpt {
+  padding:100px 5vw;
+  background: var(--bg2);
+  border-top:1px solid rgba(201,168,76,.08);
+  border-bottom:1px solid rgba(201,168,76,.08);
+  position:relative;
+}
+.excerpt::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 60% 80% at 50% 50%, rgba(20,18,50,.6) 0%, transparent 70%);
+  pointer-events:none;
+}
+.excerpt-inner { max-width:760px; margin:0 auto; text-align:center; position:relative; }
+.excerpt-inner .tag { margin-bottom:32px; }
+.excerpt-inner h2 {
+  font-family:var(--display); font-size:clamp(28px,3.5vw,42px);
+  font-weight:400; margin-bottom:48px; color:var(--cream);
+}
+.excerpt-text {
+  font-family:var(--serif); font-size:clamp(16px,1.6vw,20px);
+  line-height:2; color:rgba(232,228,216,.85);
+  text-align:right; direction:rtl;
+  border-right:2px solid var(--gold-dim);
+  padding-right:28px; margin-bottom:20px;
+}
+.excerpt-text .firstletter {
+  font-family:var(--display); font-size:72px; font-weight:400;
+  float:right; line-height:.8; margin:6px 0 0 14px;
+  color:var(--gold); text-shadow:0 0 30px rgba(201,168,76,.4);
+}
+.excerpt-separator { color:var(--gold-dim); font-size:24px; text-align:center; margin:32px 0; letter-spacing:12px; }
+.excerpt-cta { margin-top:48px; }
+.excerpt-cta p { font-size:13px; color:var(--muted); margin-bottom:20px; }
+
+/* ══════════════════════════════════════════
+   CHAPTERS
+══════════════════════════════════════════ */
+.chapters { padding:100px 5vw; background:var(--bg); }
+.chapters-inner { max-width:1100px; margin:0 auto; }
+.section-head { text-align:center; margin-bottom:64px; }
+.section-head h2 { font-family:var(--display); font-size:clamp(30px,3.5vw,46px); font-weight:400; }
+.parts-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:32px;
+}
+.part-card {
+  background:var(--card); border:1px solid rgba(201,168,76,.1);
+  border-radius:12px; padding:36px 28px;
+  transition:transform .35s var(--ease), border-color .35s, box-shadow .35s;
+}
+.part-card:hover {
+  transform:translateY(-8px);
+  border-color:rgba(201,168,76,.35);
+  box-shadow:0 24px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(201,168,76,.12);
+}
+.part-num  { font-size:10px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; margin-bottom:16px; }
+.part-name { font-family:var(--display); font-size:26px; color:var(--cream); margin-bottom:16px; line-height:1.2; }
+.part-desc { font-size:13px; color:var(--muted); line-height:1.8; margin-bottom:24px; }
+.part-chapters { display:flex; flex-direction:column; gap:8px; }
+.part-ch {
+  font-size:12px; color:rgba(232,228,216,.5);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  padding-bottom:8px; display:flex; justify-content:space-between; align-items:center;
+}
+.part-ch span { font-size:10px; color:var(--gold-dim); }
+
+/* ══════════════════════════════════════════
+   ATMOSPHERE
+══════════════════════════════════════════ */
+.atmosphere {
+  padding:120px 5vw;
+  background:var(--bg3);
+  position:relative; overflow:hidden;
+}
+.atmosphere::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(25,22,55,.8) 0%, transparent 70%);
+}
+.atmosphere-inner {
+  max-width:1100px; margin:0 auto; position:relative;
+  display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;
+}
+.atm-quotes { display:flex; flex-direction:column; gap:36px; }
+.atm-quote {
+  background:rgba(8,8,15,.6); border:1px solid rgba(201,168,76,.12);
+  border-radius:10px; padding:28px 32px;
+  border-right:3px solid var(--gold);
+  transition:transform .3s, border-color .3s;
+}
+.atm-quote:hover { transform:translateX(-4px); border-color:var(--gold); }
+.atm-quote p {
+  font-family:var(--serif); font-size:15px; line-height:1.85;
+  color:rgba(232,228,216,.8); margin-bottom:10px;
+}
+.atm-quote cite { font-size:11px; color:var(--gold-dim); letter-spacing:.05em; }
+.atm-text h2 {
+  font-family:var(--display); font-size:clamp(32px,3.5vw,48px);
+  font-weight:400; line-height:1.15; margin-bottom:24px; color:var(--cream);
+}
+.atm-text p { font-size:14px; color:var(--muted); line-height:1.9; margin-bottom:16px; }
+.atm-themes { display:flex; flex-wrap:wrap; gap:10px; margin-top:28px; }
+.atm-theme {
+  background:rgba(201,168,76,.1); color:var(--gold);
+  font-size:12px; padding:6px 16px; border-radius:20px;
+  border:1px solid rgba(201,168,76,.2);
+  transition:background .25s;
+}
+.atm-theme:hover { background:rgba(201,168,76,.2); }
+
+/* ══════════════════════════════════════════
+   AUTHOR
+══════════════════════════════════════════ */
+.author {
+  padding:120px 5vw;
+  background:linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+}
+.author-inner {
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:auto 1fr; gap:72px; align-items:start;
+}
+.author-portrait {
+  width:220px; height:280px;
+  background:linear-gradient(135deg, var(--card) 0%, var(--bg3) 100%);
+  border-radius:12px;
+  border:1px solid rgba(201,168,76,.18);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  overflow:hidden; position:relative;
+}
+.author-portrait::after {
+  content:'VB'; font-family:var(--display); font-size:72px; color:rgba(201,168,76,.15);
+}
+.author-text .tag { margin-bottom:16px; }
+.author-text h2 {
+  font-family:var(--display); font-size:clamp(32px,3.5vw,46px);
+  font-weight:400; margin-bottom:8px; color:var(--cream);
+}
+.author-text .author-name-sub { font-size:12px; letter-spacing:4px; color:var(--gold); margin-bottom:28px; text-transform:uppercase; }
+.author-text p { font-size:14px; line-height:1.9; color:rgba(232,228,216,.7); margin-bottom:14px; }
+.author-links { display:flex; gap:16px; margin-top:28px; flex-wrap:wrap; }
+.author-link {
+  display:flex; align-items:center; gap:8px;
+  font-size:12px; color:var(--muted); letter-spacing:.04em;
+  padding:8px 18px; border:1px solid rgba(201,168,76,.2); border-radius:6px;
+  transition:color .25s, border-color .25s;
+}
+.author-link:hover { color:var(--gold); border-color:var(--gold); }
+
+/* ══════════════════════════════════════════
+   REVIEWS
+══════════════════════════════════════════ */
+.reviews { padding:100px 5vw; background:var(--bg2); }
+.reviews-inner { max-width:1100px; margin:0 auto; }
+.reviews-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:56px; }
+.review-card {
+  background:var(--card); border:1px solid rgba(201,168,76,.1);
+  border-radius:12px; padding:32px 28px;
+  position:relative; overflow:hidden;
+  transition:transform .35s var(--ease), box-shadow .35s;
+}
+.review-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,0,0,.5); }
+.review-card::before {
+  content:'"'; position:absolute; top:16px; right:20px;
+  font-family:var(--display); font-size:80px; color:rgba(201,168,76,.08);
+  line-height:1;
+}
+.review-stars { color:var(--gold); font-size:15px; margin-bottom:16px; }
+.review-text { font-size:13px; line-height:1.85; color:rgba(232,228,216,.75); margin-bottom:20px; }
+.review-author { font-size:11px; color:var(--gold-dim); letter-spacing:.04em; }
+
+/* ══════════════════════════════════════════
+   LANGUAGES
+══════════════════════════════════════════ */
+.languages {
+  padding:100px 5vw;
+  background:var(--bg);
+  border-top:1px solid rgba(201,168,76,.08);
+}
+.languages-inner { max-width:1100px; margin:0 auto; }
+.lang-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:56px; }
+.lang-card {
+  background:var(--card); border:1px solid rgba(201,168,76,.1);
+  border-radius:12px; padding:36px 28px; text-align:center;
+  transition:transform .35s var(--ease), border-color .35s;
+  cursor:pointer;
+}
+.lang-card:hover { transform:translateY(-6px); border-color:var(--gold); }
+.lang-flag  { font-size:40px; margin-bottom:16px; }
+.lang-name  { font-family:var(--display); font-size:26px; color:var(--cream); margin-bottom:8px; }
+.lang-title { font-size:14px; color:var(--gold); margin-bottom:16px; font-style:italic; }
+.lang-desc  { font-size:12px; color:var(--muted); line-height:1.7; }
+
+/* ══════════════════════════════════════════
+   BUY
+══════════════════════════════════════════ */
+.buy {
+  padding:120px 5vw;
+  background:var(--bg3);
+  text-align:center;
+  position:relative; overflow:hidden;
+}
+.buy::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,168,76,.06) 0%, transparent 70%);
+  pointer-events:none;
+}
+.buy-inner { max-width:680px; margin:0 auto; position:relative; }
+.buy h2 {
+  font-family:var(--display); font-size:clamp(36px,4.5vw,56px);
+  font-weight:400; margin-bottom:20px; color:var(--cream);
+}
+.buy p { font-size:15px; color:var(--muted); margin-bottom:48px; line-height:1.7; }
+.price-cards { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-bottom:40px; }
+.price-card {
+  background:rgba(26,26,46,.8); border:1px solid rgba(201,168,76,.2);
+  border-radius:12px; padding:32px 28px; min-width:200px;
+  transition:transform .35s, border-color .35s, box-shadow .35s;
+}
+.price-card:hover { transform:translateY(-6px); border-color:var(--gold); box-shadow:0 16px 50px rgba(201,168,76,.15); }
+.price-card.featured {
+  border-color:var(--gold); background:rgba(201,168,76,.06);
+  position:relative;
+}
+.price-card.featured::before {
+  content:'מומלץ'; position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+  background:var(--gold); color:#000; font-size:10px; font-weight:700;
+  letter-spacing:2px; padding:3px 14px; border-radius:20px;
+}
+.price-format { font-size:11px; letter-spacing:3px; color:var(--gold); text-transform:uppercase; margin-bottom:12px; }
+.price-num {
+  font-family:var(--display); font-size:42px; color:var(--cream); margin-bottom:8px;
+}
+.price-num small { font-size:18px; color:var(--muted); }
+.price-desc { font-size:12px; color:var(--muted); margin-bottom:20px; line-height:1.6; }
+.price-btn {
+  width:100%; background:var(--gold); color:#000;
+  font-size:12px; font-weight:700; letter-spacing:.08em;
+  padding:12px; border-radius:4px;
+  transition:background .25s;
+}
+.price-card.featured .price-btn { background:var(--gold); }
+.price-btn:hover { background:var(--gold2); }
+.buy-guarantee {
+  font-size:12px; color:var(--muted); margin-top:16px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+
+/* ══════════════════════════════════════════
+   NEWSLETTER
+══════════════════════════════════════════ */
+.newsletter {
+  padding:100px 5vw;
+  background:var(--bg2);
+  border-top:1px solid rgba(201,168,76,.08);
+  text-align:center;
+}
+.newsletter-inner { max-width:560px; margin:0 auto; }
+.newsletter h2 {
+  font-family:var(--display); font-size:clamp(28px,3vw,40px);
+  font-weight:400; margin-bottom:16px; color:var(--cream);
+}
+.newsletter p { font-size:14px; color:var(--muted); margin-bottom:36px; line-height:1.7; }
+.newsletter-form { display:flex; gap:12px; max-width:440px; margin:0 auto; direction:ltr; }
+.newsletter-form input {
+  flex:1; background:var(--card); border:1px solid rgba(201,168,76,.2);
+  border-radius:4px; padding:13px 18px; color:var(--cream);
+  font-size:14px; font-family:var(--sans); outline:none;
+  transition:border-color .25s;
+}
+.newsletter-form input:focus { border-color:var(--gold); }
+.newsletter-form input::placeholder { color:var(--muted); }
+.newsletter-form button {
+  background:var(--gold); color:#000; font-size:12px; font-weight:700;
+  letter-spacing:.08em; padding:13px 24px; border-radius:4px;
+  white-space:nowrap; transition:background .25s;
+}
+.newsletter-form button:hover { background:var(--gold2); }
+.newsletter-note { font-size:11px; color:var(--muted); margin-top:12px; }
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer {
+  background:var(--bg); border-top:1px solid rgba(201,168,76,.1);
+  padding:60px 5vw 40px;
+}
+.footer-inner {
+  max-width:1100px; margin:0 auto;
+  display:flex; justify-content:space-between; align-items:flex-start;
+  gap:48px; flex-wrap:wrap;
+}
+.footer-brand .logo { font-family:var(--display); font-size:22px; color:var(--cream); margin-bottom:10px; }
+.footer-brand .logo span { color:var(--gold); }
+.footer-brand p { font-size:12px; color:var(--muted); max-width:240px; line-height:1.7; }
+.footer-links h4 { font-size:11px; letter-spacing:3px; color:var(--gold); text-transform:uppercase; margin-bottom:16px; }
+.footer-links ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.footer-links li a { font-size:13px; color:var(--muted); transition:color .25s; }
+.footer-links li a:hover { color:var(--cream); }
+.footer-bottom {
+  max-width:1100px; margin:40px auto 0;
+  border-top:1px solid rgba(255,255,255,.05);
+  padding-top:24px;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+}
+.footer-bottom p { font-size:12px; color:var(--muted); }
+
+/* ══════════════════════════════════════════
+   MOBILE
+══════════════════════════════════════════ */
+@media (max-width:900px) {
+  .about-inner, .atmosphere-inner, .author-inner { grid-template-columns:1fr; gap:48px; }
+  .parts-grid, .reviews-grid, .lang-grid { grid-template-columns:1fr 1fr; }
+  .nav-links { display:none; }
+  .author-portrait { width:160px; height:200px; }
+}
+@media (max-width:600px) {
+  .parts-grid, .reviews-grid, .lang-grid { grid-template-columns:1fr; }
+  .hero-stats { gap:24px; }
+  .price-cards { flex-direction:column; align-items:center; }
+  .footer-inner { flex-direction:column; }
+  .newsletter-form { flex-direction:column; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav id="nav">
+  <div class="nav-logo">אפקט <span>המזל</span></div>
+  <div class="nav-links">
+    <a href="#about">על הספר</a>
+    <a href="#excerpt">קטע</a>
+    <a href="#author">המחבר</a>
+    <a href="#reviews">ביקורות</a>
+    <a href="#languages">שפות</a>
+    <a href="#buy" class="nav-cta">לרכישה</a>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+
+  <!-- Hero Video -->
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="HEROVIDEO.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
+
+  <!-- Rain effect -->
+  <div class="hero-rain" id="heroRain"></div>
+
+  <!-- Spark -->
+  <div class="hero-spark"></div>
+
+  <div class="hero-content">
+    <div class="hero-label reveal">רומן מתח ספרותי · ירושלים · 2026</div>
+    <h1 class="hero-title reveal">
+      אפקט
+      <span class="line2">המזל</span>
+    </h1>
+    <p class="hero-sub reveal">
+      מי שידיו פתוחות בערב גשום אחד —<br>
+      הוא היחיד שיוכל להחזיק את הסוד.
+    </p>
+    <div class="hero-btns reveal">
+      <a href="#buy" class="btn-primary">לרכישת הספר</a>
+      <a href="#excerpt" class="btn-ghost">קרא/י פרק ראשון</a>
+    </div>
+  </div>
+
+  <div class="hero-stats reveal">
+    <div class="stat-item">
+      <div class="stat-num">250</div>
+      <div class="stat-lbl">עמודים</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">15</div>
+      <div class="stat-lbl">פרקים</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-lbl">שפות</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-lbl">חלקים</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>גלול</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-book-mock reveal-l">
+      <div class="book-3d">
+        <div class="book-cover-content">
+          <div class="book-cover-tag">Viacheslav Bard</div>
+          <div class="book-cover-line"></div>
+          <div class="book-cover-title">אפקט<br>המזל</div>
+          <div class="book-cover-author">VIACHESLAV BARD</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-text reveal-r">
+      <span class="tag">על הספר</span>
+      <div class="divider"></div>
+      <h2>כשהמקריות<br>היא <span class="gold">תוכנית</span></h2>
+      <p>
+        ד"ר אדם בן-ארי היה חוקר בנוירוביולוגיה התנהגותית במכון ויצמן — עד שהסטודנט שלו גנב את המחקר שלו, ובלילה אחד הוא איבד את הכל: העבודה, הנישואים, הזהות.
+      </p>
+      <p>
+        שלוש שנים מאוחר יותר הוא מכין אספרסו ברחוב עמק רפאים, ירושלים. בלילה גשום אחד בנובמבר, לקוחה אחרונה נכנסת לבית הקפה — ומשנה את הכל.
+      </p>
+      <p>
+        מכתב אנונימי. מוזיאון ישראל. מגילות מדברי יהודה. וגילוי שהמקריות שחייתה אותו — לא הייתה מקרית מעולם.
+      </p>
+      <div class="about-tags">
+        <span>מתח פסיכולוגי</span>
+        <span>ירושלים</span>
+        <span>נוירוביולוגיה</span>
+        <span>מגילות ים המלח</span>
+        <span>אתגר זהות</span>
+        <span>רומן ראשון</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ EXCERPT ═══════════ -->
+<section class="excerpt" id="excerpt">
+  <div class="excerpt-inner">
+    <span class="tag reveal">פרק ראשון · קטע</span>
+    <h2 class="reveal">הלקוחה האחרונה</h2>
+
+    <div class="excerpt-text reveal">
+      <span class="firstletter">ג</span>שם של ירושלים אינו כמו הגשם של תל אביב. הוא לא יורד — הוא נופל. כבד, אנכי, מצלצל על אבן ירושלמית כמו מטבעות. בערבי נובמבר, כשהאוויר ההררי קרוב לאפס מעלות, הוא הופך לקרח דקיק שמכסה את המדרכות במושבה הגרמנית בשכבה זוהרת תחת הפנסים הצהובים.
+    </div>
+
+    <div class="excerpt-separator reveal">· · ·</div>
+
+    <div class="excerpt-text reveal">
+      אדם בן-ארי עמד מאחורי הדלפק של "ארומה קטן" וניגב כוס בית קפה במגבת לבנה. השעה הייתה תשע וחצי בערב. עוד עשרים דקות לסגירה. בחוץ, השמיים השחורים שפכו מים מאז שש.
+    </div>
+
+    <div class="excerpt-separator reveal">· · ·</div>
+
+    <div class="excerpt-text reveal">
+      רחוב עמק רפאים היה ריק כמעט. רק אישה אחת עמדה מתחת לחופה של חנות הספרים הסגורה ממול, מסתכלת אל חלון הראווה כאילו השלטים בעברית הם תעלומה מרתקת.
+    </div>
+
+    <div class="excerpt-cta reveal">
+      <p>הפרק הראשון המלא — חינם. שלח/י אימייל ואשלח מיד.</p>
+      <a href="mailto:theluckeffectbook@gmail.com?subject=פרק ראשון חינם — אפקט המזל&body=שלום, אשמח לקבל את הפרק הראשון של הספר אפקט המזל. תודה!" class="btn-primary">קבל/י פרק ראשון חינם</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CHAPTERS ═══════════ -->
+<section class="chapters" id="chapters">
+  <div class="chapters-inner">
+    <div class="section-head reveal">
+      <span class="tag">מבנה הספר</span>
+      <div class="divider center"></div>
+      <h2>שלושה חלקים. חמישה עשר פרקים.</h2>
+    </div>
+    <div class="parts-grid">
+      <div class="part-card reveal">
+        <div class="part-num">חלק ראשון</div>
+        <div class="part-name">ההתעוררות</div>
+        <div class="part-desc">אדם מגלה שלא כל מה שאיבד — אבד. לקוחה אחת פותחת דלת שנשארה סגורה שלוש שנים.</div>
+        <div class="part-chapters">
+          <div class="part-ch">הלקוחה האחרונה <span>01</span></div>
+          <div class="part-ch">כתבת בגשם <span>02</span></div>
+          <div class="part-ch">שלוש כללים <span>03</span></div>
+          <div class="part-ch">הלילה הראשון <span>04</span></div>
+          <div class="part-ch">מחברת של אמא <span>05</span></div>
+        </div>
+      </div>
+      <div class="part-card reveal">
+        <div class="part-num">חלק שני</div>
+        <div class="part-name">הסוד נחשף</div>
+        <div class="part-desc">ככל שאדם חופר עמוק יותר, הוא מבין: מישהו ידע. מישהו תכנן. ומישהו מחכה שהוא יפנה.</div>
+        <div class="part-chapters">
+          <div class="part-ch">הכלל הראשון <span>06</span></div>
+          <div class="part-ch">הארגון <span>07</span></div>
+          <div class="part-ch">הבגידה <span>08</span></div>
+          <div class="part-ch">המערה <span>09</span></div>
+          <div class="part-ch">הכלל השני <span>10</span></div>
+        </div>
+      </div>
+      <div class="part-card reveal">
+        <div class="part-num">חלק שלישי</div>
+        <div class="part-name">ההיפוך</div>
+        <div class="part-desc">כשהאמת מתגלה — כל מה שחשב שהוא מבין על מזל, על גורל, ועל עצמו — מתהפך.</div>
+        <div class="part-chapters">
+          <div class="part-ch">המתג <span>11</span></div>
+          <div class="part-ch">המוסר <span>12</span></div>
+          <div class="part-ch">הכלל השלישי <span>13</span></div>
+          <div class="part-ch">ההעלאה <span>14</span></div>
+          <div class="part-ch">הילדה <span>15</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ATMOSPHERE / QUOTES ═══════════ -->
+<section class="atmosphere" id="quotes">
+  <div class="atmosphere-inner">
+    <div class="atm-quotes">
+      <div class="atm-quote reveal">
+        <p>"הוא לא יורד — הוא נופל. כבד, אנכי, מצלצל על אבן ירושלמית כמו מטבעות."</p>
+        <cite>— פרק 1, עמ' 11</cite>
+      </div>
+      <div class="atm-quote reveal">
+        <p>"המזל לא נופל על אנשים. הוא מחכה למי שידיו פתוחות."</p>
+        <cite>— פרק 5, עמ' 47</cite>
+      </div>
+      <div class="atm-quote reveal">
+        <p>"שלוש שנים של מחקר — על האופן שבו מערכת הדופמין מעבדת אירועים מקריים — נעלמו במהלך שלושה ימים."</p>
+        <cite>— פרק 2, עמ' 12</cite>
+      </div>
+      <div class="atm-quote reveal">
+        <p>"הוא קם בבוקר אחד, נסע למכון, גילה שהמרצע אבד — ובערב הוא כבר היה מובטל."</p>
+        <cite>— פרק 2, עמ' 13</cite>
+      </div>
+    </div>
+    <div class="atm-text reveal-r">
+      <span class="tag">עולם הספר</span>
+      <div class="divider"></div>
+      <h2>ירושלים<br>שאתם לא<br>מכירים</h2>
+      <p>
+        "אפקט המזל" נכתב בהשראת השאלה הפסיכולוגית-מדעית: מה גורם לאנשים מסוימים לחוות "מזל" שוב ושוב? האם מדובר בדפוסים שהמוח שלנו מזהה, בלי שנדע?
+      </p>
+      <p>
+        ירושלים בנובמבר. גשם, אבן עתיקה, מוסדות תרבות שמחביאים סודות — זה הרקע. הדרמה האנושית היא הדלק.
+      </p>
+      <div class="atm-themes">
+        <span class="atm-theme">מזל וגורל</span>
+        <span class="atm-theme">נוירוביולוגיה</span>
+        <span class="atm-theme">גניבה אקדמית</span>
+        <span class="atm-theme">מגילות עתיקות</span>
+        <span class="atm-theme">חזרה לחיים</span>
+        <span class="atm-theme">ירושלים</span>
+        <span class="atm-theme">מסתורין</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ AUTHOR ═══════════ -->
+<section class="author" id="author">
+  <div class="author-inner">
+    <div class="author-portrait reveal-l"></div>
+    <div class="author-text reveal-r">
+      <span class="tag">המחבר</span>
+      <h2>ויאצ'סלב בארד</h2>
+      <div class="author-name-sub">Viacheslav Bard</div>
+      <p>
+        ויאצ'סלב בארד הוא יוצר, סופר וחוקר של תופעות אנושיות, פסיכולוגיות ורגשיות. "אפקט המזל" הוא ספרו הראשון, שנולד מסקרנות עמוקה לאופן שבו אנשים מפרשים הצלחה, כישלון, מקריות וגורל.
+      </p>
+      <p>
+        הספר נכתב לאורך שלוש שנים של מחקר ועיבוד — שאלה שחזרה שוב ושוב: למה אנשים שחיו את אותה חוויה קשה — הולכים לכיוונים כל כך שונים? מה הופך אסון לנקודת מוצא?
+      </p>
+      <p>
+        "אפקט המזל" הוא הניסיון לענות על השאלה הזאת דרך סיפור — כי לפעמים, רק דרך עולם בדיוני אפשר לגעת באמת האמיתית.
+      </p>
+      <div class="author-links">
+        <a href="mailto:theluckeffectbook@gmail.com" class="author-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          theluckeffectbook@gmail.com
+        </a>
+        <a href="#buy" class="author-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+          לרכישה
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ REVIEWS ═══════════ -->
+<section class="reviews" id="reviews">
+  <div class="reviews-inner">
+    <div class="section-head reveal">
+      <span class="tag">קוראים ראשונים</span>
+      <div class="divider center"></div>
+      <h2>מה אמרו קוראי הגרסה המוקדמת</h2>
+      <p style="font-size:13px;color:var(--muted);margin-top:12px;">הספר נשלח לקבוצת קוראי טרום-פרסום. אלו תגובותיהם הראשונות.</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"קראתי בנשימה אחת. ירושלים מורגשת בכל דף — הגשם, האבן, הריח של קפה. ואדם בן-ארי הוא אחד הגיבורים המשכנעים ביותר שקראתי בספרות ישראלית זה שנים."</div>
+        <div class="review-author">— מיכל ר., תל אביב · קורא טרום-פרסום</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"הספר הזה שאל אותי שאלה שאני עוד לא מפסיק לחשוב עליה: האם מה שאני קורא 'מזל' בחיים שלי — הוא באמת מקרי? The Luck Effect ברמה של best-seller בינלאומי."</div>
+        <div class="review-author">— Alex M., Jerusalem · Early Reader</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Прочитала за два вечера. Иерусалим оживает на страницах — атмосфера потрясающая. История Адама затягивает с первой страницы и не отпускает до финала."</div>
+        <div class="review-author">— Наталья К., Хайфа · Ранний читатель</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ LANGUAGES ═══════════ -->
+<section class="languages" id="languages">
+  <div class="languages-inner">
+    <div class="section-head reveal">
+      <span class="tag">שפות</span>
+      <div class="divider center"></div>
+      <h2>זמין בשלוש שפות</h2>
+    </div>
+    <div class="lang-grid">
+      <a href="#buy" class="lang-card reveal" style="text-decoration:none;">
+        <div class="lang-flag">🇮🇱</div>
+        <div class="lang-name">עברית</div>
+        <div class="lang-title">אפקט המזל</div>
+        <div class="lang-desc">המהדורה המקורית. שפה עברית ספרותית ברמה גבוהה. ירושלים מהליבה.</div>
+      </a>
+      <a href="#buy" class="lang-card reveal" style="text-decoration:none;">
+        <div class="lang-flag">🇬🇧</div>
+        <div class="lang-name">English</div>
+        <div class="lang-title">The Luck Effect</div>
+        <div class="lang-desc">Full literary translation. For international readers and the Israeli English-speaking community.</div>
+      </a>
+      <a href="#buy" class="lang-card reveal" style="text-decoration:none;">
+        <div class="lang-flag">🇷🇺</div>
+        <div class="lang-name">Русский</div>
+        <div class="lang-title">Эффект Удачи</div>
+        <div class="lang-desc">Полный литературный перевод. Для русскоязычной общины Израиля и читателей по всему миру.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ BUY ═══════════ -->
+<section class="buy" id="buy">
+  <div class="buy-inner">
+    <span class="tag reveal">רכישה</span>
+    <h2 class="reveal">מהדורה דיגיטלית</h2>
+    <p class="reveal">הורדה מיידית לאחר אישור התשלום · כל רכישה כוללת את שלוש גרסאות השפה</p>
+
+    <div class="price-cards reveal">
+      <div class="price-card">
+        <div class="price-format">PDF · דיגיטל</div>
+        <div class="price-num"><small>₪</small>49</div>
+        <div class="price-desc">קובץ PDF להורדה מיידית<br>כל שלוש השפות כלולות<br>עדכונים עתידיים חינם</div>
+        <a href="mailto:theluckeffectbook@gmail.com?subject=רכישה — אפקט המזל PDF&body=שלום, אני מעוניין/ת לרכוש את הספר אפקט המזל (PDF). שם: " class="price-btn" style="display:block;text-align:center;padding:12px;background:var(--gold);color:#000;font-size:12px;font-weight:700;letter-spacing:.08em;border-radius:4px;transition:background .25s;">לרכישה →</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-format">PDF + ePub</div>
+        <div class="price-num"><small>₪</small>79</div>
+        <div class="price-desc">PDF + ePub לקינדל ולנייד<br>פרק בונוס בלעדי<br>כל שלוש השפות + עדכונים</div>
+        <a href="mailto:theluckeffectbook@gmail.com?subject=רכישה — אפקט המזל PDF+ePub&body=שלום, אני מעוניין/ת לרכוש את הספר אפקט המזל (PDF+ePub). שם: " class="price-btn" style="display:block;text-align:center;padding:12px;background:var(--gold);color:#000;font-size:12px;font-weight:700;letter-spacing:.08em;border-radius:4px;transition:background .25s;">לרכישה →</a>
+      </div>
+    </div>
+
+    <div class="buy-guarantee reveal">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      פרק ראשון בחינם לפני הרכישה · מגיב תוך 24 שעות · ללא חיוב נסתר
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ NEWSLETTER ═══════════ -->
+<section class="newsletter" id="newsletter">
+  <div class="newsletter-inner">
+    <span class="tag reveal">ניוזלטר</span>
+    <h2 class="reveal">קבל/י את הפרק הראשון חינם</h2>
+    <p class="reveal">
+      השאר/י אימייל ואשלח לך את הפרק הראשון המלא בחינם תוך 24 שעות.
+      ללא מנוי אוטומטי, ללא ספאם.
+    </p>
+    <form class="newsletter-form reveal" onsubmit="handleSignup(event)">
+      <input type="email" placeholder="האימייל שלך" id="emailInput" required>
+      <button type="submit">שלח →</button>
+    </form>
+    <p class="newsletter-note reveal">הפרטים שלך נשארים אצלי בלבד · ניתן לבטל בכל עת</p>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">אפקט <span>המזל</span></div>
+      <p>רומן מתח ספרותי מאת ויאצ'סלב בארד.<br>ירושלים, 2026.</p>
+    </div>
+    <div class="footer-links">
+      <h4>ניווט</h4>
+      <ul>
+        <li><a href="#about">על הספר</a></li>
+        <li><a href="#excerpt">קטע לקריאה</a></li>
+        <li><a href="#chapters">פרקים</a></li>
+        <li><a href="#author">המחבר</a></li>
+        <li><a href="#buy">לרכישה</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>שפות</h4>
+      <ul>
+        <li><a href="#buy">עברית — אפקט המזל</a></li>
+        <li><a href="#buy">English — The Luck Effect</a></li>
+        <li><a href="#buy">Русский — Эффект Удачи</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>צור קשר</h4>
+      <ul>
+        <li><a href="mailto:theluckeffectbook@gmail.com">theluckeffectbook@gmail.com</a></li>
+        <li><a href="mailto:theluckeffectbook@gmail.com?subject=שאלה על הספר">שלח/י הודעה</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 ויאצ'סלב בארד · כל הזכויות שמורות</p>
+    <p style="direction:ltr">First Edition · Jerusalem · 2026</p>
+  </div>
+</footer>
+
+<script>
+/* ── NAV scroll ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ── Rain effect ── */
+(function createRain() {
+  const container = document.getElementById('heroRain');
+  for (let i = 0; i < 40; i++) {
+    const line = document.createElement('div');
+    line.className = 'rain-line';
+    const left   = Math.random() * 100;
+    const height = 60 + Math.random() * 140;
+    const dur    = 1.2 + Math.random() * 2;
+    const delay  = Math.random() * 3;
+    const opacity = 0.06 + Math.random() * 0.18;
+    Object.assign(line.style, {
+      left:     left + '%',
+      height:   height + 'px',
+      animationDuration:  dur + 's',
+      animationDelay:     '-' + delay + 's',
+      opacity:  opacity,
+    });
+    container.appendChild(line);
+  }
+})();
+
+/* ── Reveal on scroll ── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach((el, i) => {
+  el.style.transitionDelay = (i % 4) * 0.1 + 's';
+  observer.observe(el);
+});
+
+/* ── Newsletter ── */
+function handleSignup(e) {
+  e.preventDefault();
+  const email = document.getElementById('emailInput').value;
+  // Open mailto so the visitor's mail client sends the request to the author
+  window.location.href = 'mailto:theluckeffectbook@gmail.com'
+    + '?subject=' + encodeURIComponent('פרק ראשון חינם — אפקט המזל')
+    + '&body=' + encodeURIComponent('שלום,\nאני מעוניין/ת לקבל את הפרק הראשון בחינם.\nהאימייל שלי: ' + email + '\nתודה!');
+  const btn = e.target.querySelector('button');
+  btn.textContent = '✓ כמעט שם!';
+  btn.style.background = '#1a7a4a';
+  setTimeout(() => { btn.textContent = 'שלח →'; btn.style.background = ''; }, 4000);
+}
+
+/* ── Smooth section highlights ── */
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+  navLinks.forEach(l => l.style.color = l.getAttribute('href') === '#' + current ? 'var(--gold)' : '');
+});
+</script>
+</body>
+</html>
