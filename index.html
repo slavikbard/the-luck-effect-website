@@ -349,15 +349,22 @@ nav.scrolled {
 ══════════════════════════════════════════ */
 .atmosphere {
   padding:120px 5vw;
-  background:var(--bg3);
   position:relative; overflow:hidden;
 }
+.atmosphere-bg {
+  position:absolute; inset:0; z-index:0;
+  width:100%; height:100%; object-fit:cover;
+  object-position:center top;
+  opacity:.28;
+}
 .atmosphere::before {
-  content:''; position:absolute; inset:0;
-  background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(25,22,55,.8) 0%, transparent 70%);
+  content:''; position:absolute; inset:0; z-index:1;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 50%, rgba(25,22,55,.82) 0%, transparent 70%),
+    rgba(8,8,15,.68);
 }
 .atmosphere-inner {
-  max-width:1100px; margin:0 auto; position:relative;
+  max-width:1100px; margin:0 auto; position:relative; z-index:2;
   display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;
 }
 .atm-quotes { display:flex; flex-direction:column; gap:36px; }
@@ -798,6 +805,7 @@ footer {
 
 <!-- ═══════════ ATMOSPHERE / QUOTES ═══════════ -->
 <section class="atmosphere" id="quotes">
+  <img class="atmosphere-bg" src="Portrait_of_a_35-year-old_Israeli_202605272309.jpeg" alt="">
   <div class="atmosphere-inner">
     <div class="atm-quotes">
       <div class="atm-quote reveal">
