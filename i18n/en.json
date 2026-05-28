@@ -1,0 +1,117 @@
+{
+  "lang": "en",
+  "dir": "ltr",
+  "nav": {
+    "about": "About",
+    "character": "Character",
+    "excerpt": "Read Excerpt",
+    "chapters": "Chapters",
+    "author": "Author",
+    "buy": "Buy"
+  },
+  "hero": {
+    "tag": "Psychological Thriller — 2025",
+    "title_line1": "When Luck",
+    "title_line2": "Becomes",
+    "title_line3": "a System",
+    "subtitle": "Is chance an illusion? Dr. Adam Ben-Ari studies the patterns behind luck — until he discovers that luck itself is watching him.",
+    "cta_read": "Read First Chapter",
+    "cta_buy": "Buy Now"
+  },
+  "about": {
+    "tag": "About the Book",
+    "title_line1": "Coincidence is",
+    "title_line2": "something you",
+    "title_line3": "haven't understood yet",
+    "description1": "\"The Luck Effect\" is a psychological thriller set in contemporary Israel. When a former neuroscience researcher discovers unexplainable patterns in a sequence of 'random' events, he finds himself inside a web someone has carefully woven.",
+    "description2": "The Collection — a secret archive from 1940 — may hold the key to all the secrets. But also the price.",
+    "stat1_num": "250",
+    "stat1_lbl": "Pages",
+    "stat2_num": "15",
+    "stat2_lbl": "Chapters",
+    "stat3_num": "3",
+    "stat3_lbl": "Parts"
+  },
+  "character": {
+    "tag": "Main Character",
+    "title_line1": "A scientist who can't",
+    "title_line2": "stop",
+    "title_highlight": "seeing patterns",
+    "description": "Three years ago, Dr. Adam Ben-Ari was one of Israel's most promising researchers. After one catastrophe, he left everything — and opened a coffee shop. But the patterns keep haunting him.",
+    "traits": ["Attention", "Systematic", "Solitude", "Haunted Past", "Genius", "Open Hands"],
+    "card_name": "Adam Ben-Ari",
+    "card_role": "Researcher · Bartender · Keeper of Secrets",
+    "stat1_num": "3",
+    "stat1_lbl": "Years Lost",
+    "stat2_num": "1",
+    "stat2_lbl": "Coffee Shop",
+    "stat3_num": "80",
+    "stat3_lbl": "Years of Secrets"
+  },
+  "excerpt": {
+    "tag": "First Excerpt",
+    "title_line1": "Start",
+    "title_line2": "Reading"
+  },
+  "chapters": {
+    "tag": "Book Structure",
+    "title_line1": "Three",
+    "title_line2": "Parts",
+    "part1_title": "Part One: The Pattern",
+    "part1_desc": "Adam Ben-Ari meets a mysterious client at his coffee shop. She knows him too well.",
+    "part2_title": "Part Two: The Collection",
+    "part2_desc": "A secret wartime archive. Old photographs. Names that should be dead.",
+    "part3_title": "Part Three: The Luck Effect",
+    "part3_desc": "When coincidence becomes a pattern, and a pattern becomes a threat, Adam realizes luck does not exist."
+  },
+  "atmosphere": {
+    "tag": "The World of the Book",
+    "title_line1": "Dark",
+    "title_line2": "Atmosphere",
+    "quote1": "\"He knew the coincidence wasn't random. It never was.\"",
+    "quote2": "\"Hidden within every sequence of events lies intent.\"",
+    "quote3": "\"Luck is the name we give to a pattern we haven't recognized yet.\"",
+    "quote4": "\"The Collection was not an archive. It was a mirror — and someone was looking back.\""
+  },
+  "author": {
+    "tag": "The Author",
+    "name": "Vyacheslav Bard",
+    "bio1": "Israeli author, immigrant from Russia, writing Hebrew as an art language. \"The Luck Effect\" is his debut novel.",
+    "bio2": "The book was written over three years and combines psychological investigation with precise narrative architecture.",
+    "photo_alt": "Vyacheslav Bard — Author"
+  },
+  "reviews": {
+    "tag": "What Readers Say",
+    "title_line1": "Early",
+    "title_line2": "Reviews",
+    "review1_text": "\"From the first page I knew this was a special book. The prose is clear, the plot tightens and doesn't let go.\"",
+    "review1_author": "— Beta Reader",
+    "review2_text": "\"A fascinating blend of thriller and philosophy. Bard built a world you want to stay in even when it frightens you.\"",
+    "review2_author": "— Book Review",
+    "review3_text": "\"The character of Adam Ben-Ari will haunt me for a long time. An extraordinary book.\"",
+    "review3_author": "— Beta Reader"
+  },
+  "buy": {
+    "tag": "Purchase",
+    "title_line1": "Buy the",
+    "title_line2": "Book",
+    "amazon_label": "Amazon",
+    "amazon_desc": "Worldwide shipping",
+    "digital_label": "Digital Book",
+    "digital_desc": "Kindle / PDF",
+    "signed_label": "Signed Copy",
+    "signed_desc": "Limited edition"
+  },
+  "newsletter": {
+    "title": "Get Updates Directly",
+    "subtitle": "Leave your email and be the first to know about publication, launch events, and exclusive chapters.",
+    "placeholder": "Your email address",
+    "submit": "Subscribe",
+    "social_title": "Follow on Social",
+    "instagram_label": "@slavikbard"
+  },
+  "footer": {
+    "tagline": "The Luck Effect — Vyacheslav Bard",
+    "rights": "All rights reserved"
+  }
+}
